@@ -424,6 +424,7 @@ endmacro()
 #
 #=============================================================================#
 function(LOAD_BOARD_SETTINGS)
+    message(STATUS "ARDUINO_BOARDS_PATH: ${ARDUINO_BOARDS_PATH}")
     load_arduino_style_settings(ARDUINO_BOARDS "${ARDUINO_BOARDS_PATH}")
 endfunction()
 
@@ -1098,7 +1099,7 @@ endfunction()
 # Load a Arduino style settings file into the cache.
 # 
 #  Examples of this type of settings file is the boards.txt and
-# programmers.txt files located in ${ARDUINO_SDK}/hardware/arduino.
+# programmers.txt files located in ${ARDUINO_SDK}/hardware/arduino/avr.
 #
 # Settings have to following format:
 #
@@ -1647,36 +1648,37 @@ if(NOT ARDUINO_FOUND AND ARDUINO_SDK_PATH)
     find_file(ARDUINO_CORES_PATH
               NAMES cores
               PATHS ${ARDUINO_SDK_PATH}
-              PATH_SUFFIXES hardware/arduino
+              PATH_SUFFIXES hardware/arduino/avr
               DOC "Path to directory containing the Arduino core sources.")
 
     find_file(ARDUINO_VARIANTS_PATH
               NAMES variants 
               PATHS ${ARDUINO_SDK_PATH}
-              PATH_SUFFIXES hardware/arduino
+              PATH_SUFFIXES hardware/arduino/avr
               DOC "Path to directory containing the Arduino variant sources.")
 
     find_file(ARDUINO_BOOTLOADERS_PATH
               NAMES bootloaders
               PATHS ${ARDUINO_SDK_PATH}
-              PATH_SUFFIXES hardware/arduino
+              PATH_SUFFIXES hardware/arduino/avr
               DOC "Path to directory containing the Arduino bootloader images and sources.")
 
     find_file(ARDUINO_LIBRARIES_PATH
               NAMES libraries
               PATHS ${ARDUINO_SDK_PATH}
+              PATH_SUFFIXES hardware/arduino/avr ./
               DOC "Path to directory containing the Arduino libraries.")
 
     find_file(ARDUINO_BOARDS_PATH
               NAMES boards.txt
               PATHS ${ARDUINO_SDK_PATH}
-              PATH_SUFFIXES hardware/arduino
+              PATH_SUFFIXES hardware/arduino/avr
               DOC "Path to Arduino boards definition file.")
 
     find_file(ARDUINO_PROGRAMMERS_PATH
         NAMES programmers.txt
         PATHS ${ARDUINO_SDK_PATH}
-        PATH_SUFFIXES hardware/arduino
+        PATH_SUFFIXES hardware/arduino/avr
         DOC "Path to Arduino programmers definition file.")
 
     find_file(ARDUINO_VERSION_PATH
@@ -1687,7 +1689,7 @@ if(NOT ARDUINO_FOUND AND ARDUINO_SDK_PATH)
     find_program(ARDUINO_AVRDUDE_PROGRAM
         NAMES avrdude
         PATHS ${ARDUINO_SDK_PATH}
-        PATH_SUFFIXES hardware/tools
+        PATH_SUFFIXES hardware/tools/avr/bin
         NO_DEFAULT_PATH)
 
     find_program(ARDUINO_AVRDUDE_PROGRAM
@@ -1703,6 +1705,9 @@ if(NOT ARDUINO_FOUND AND ARDUINO_SDK_PATH)
         PATH_SUFFIXES hardware/tools
                       hardware/tools/avr/etc
         DOC "Path to avrdude programmer configuration file.")
+
+    message(STATUS "ARDUINO_AVRDUDE_PROGRAM: ${ARDUINO_AVRDUDE_PROGRAM}")
+    message(STATUS "ARDUINO_AVRDUDE_CONFIG_PATH: ${ARDUINO_AVRDUDE_CONFIG_PATH}")
 
     set(ARDUINO_DEFAULT_BOARD uno  CACHE STRING "Default Arduino Board ID when not specified.")
     set(ARDUINO_DEFAULT_PORT       CACHE STRING "Default Arduino port when not specified.")
@@ -1735,11 +1740,12 @@ if(NOT ARDUINO_FOUND AND ARDUINO_SDK_PATH)
     setup_arduino_size_script(ARDUINO_SIZE_SCRIPT)
     set(ARDUINO_SIZE_SCRIPT ${ARDUINO_SIZE_SCRIPT} CACHE INTERNAL "Arduino Size Script")
 
+    message(STATUS "load_board_settings()...")
     load_board_settings()
     load_programmers_settings()
 
-    #print_board_list()
-    #print_programmer_list()
+    print_board_list()
+    print_programmer_list()
 
     set(ARDUINO_FOUND True CACHE INTERNAL "Arduino Found")
     mark_as_advanced(

@@ -2,9 +2,11 @@
 # can be used. For a detailed explenation of all the options please
 # reade README.rst.
 
-set(ARDUINO_DEFAULT_BOARD diecimila) # Default Board ID, when not specified
-set(ARDUINO_DEFAULT_PORT /dev/ttyUSB0) # Default Port, when not specified
+#set(ARDUINO_DEFAULT_BOARD diecimila) # Default Board ID, when not specified
+#set(ARDUINO_DEFAULT_PORT /dev/ttyUSB0) # Default Port, when not specified
 
+#link_directories(/Applications/Arduino.app/Contents/Java/hardware//arduino/avr/libraries/)
+#register_hardware_platform(${ARDUINO_SDK_PATH}/hardware/arduino/)
 
 #====================================================================#
 # master_writer example from Wire library
@@ -18,7 +20,7 @@ generate_arduino_example(Wire master_writer)
 # Original blink sketch (from Arduino SDK examples)
 #====================================================================#
 generate_arduino_firmware(blink_original
-    SKETCH ${ARDUINO_SDK_PATH}/examples/1.Basics/Blink
+    SKETCH ${ARDUINO_SDK_PATH}/examples/01.Basics/Blink
     PORT  /dev/ttyACM0
     BOARD uno)
 
@@ -37,7 +39,7 @@ generate_arduino_firmware(blink_original
 #====================================================================#
 generate_arduino_firmware(blink_bundled
     SKETCH Blink
-    PROGRAMMER usbtinyisp
+    PROGRAMMER avrispmkii
     NO_AUTOLIBS)
 
 # Alternative: by variables
