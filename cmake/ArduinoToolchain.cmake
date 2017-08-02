@@ -69,7 +69,7 @@ endif()
 find_path(ARDUINO_SDK_PATH
           NAMES lib/version.txt
           PATH_SUFFIXES share/arduino
-                        Arduino.app/Contents/Resources/Java/
+                        Arduino.app/Contents/Java/
                         ${ARDUINO_PATHS}
           HINTS ${SDK_PATH_HINTS}
           DOC "Arduino SDK path.")
@@ -77,6 +77,10 @@ find_path(ARDUINO_SDK_PATH
 if(ARDUINO_SDK_PATH)
     list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK_PATH}/hardware/tools/avr)
     list(APPEND CMAKE_SYSTEM_PREFIX_PATH ${ARDUINO_SDK_PATH}/hardware/tools/avr/utils)
+    set(ARDUINO_CORES_PATH ${ARDUINO_SDK_PATH}/hardware/arduino/avr/cores)
+    set(ARDUINO_BOOTLOADERS_PATH ${ARDUINO_SDK_PATH}/hardware/arduino/avr/bootloaders)
+    set(ARDUINO_BOARDS_PATH ${ARDUINO_SDK_PATH}/hardware/arduino/avr/boards.txt)
+    set(ARDUINO_PROGRAMMERS_PATH ${ARDUINO_SDK_PATH}/hardware/arduino/avr/programmers.txt)
 else()
     message(FATAL_ERROR "Could not find Arduino SDK (set ARDUINO_SDK_PATH)!")
 endif()

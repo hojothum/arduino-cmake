@@ -2,8 +2,12 @@
 # can be used. For a detailed explenation of all the options please
 # reade README.rst.
 
-set(ARDUINO_DEFAULT_BOARD diecimila) # Default Board ID, when not specified
-set(ARDUINO_DEFAULT_PORT /dev/ttyUSB0) # Default Port, when not specified
+set(ARDUINO_DEFAULT_BOARD uno) # Default Board ID, when not specified
+set(ARDUINO_DEFAULT_PORT /dev/tty.usbmodem1411) # Default Port, when not specified
+
+register_hardware_platform(${ARDUINO_SDK_PATH}/hardware/arduino/avr)
+link_directories(${ARDUINO_SDK_PATH}/libraries)
+link_directories(${ARDUINO_SDK_PATH}/hardware/arduino/avr/libraries)
 
 
 #====================================================================#
